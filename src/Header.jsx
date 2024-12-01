@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
 import { solarWind } from './api';
 
-const Header = ({currentWinds, setCurrentWinds, label, setLabel}) => {
+const Header = ({currentWinds, setCurrentWinds}) => {
+
+  /*
+  currentWinds data
+
+  Index 0 - Date/Time
+  Index 1 - Density 
+  Index 2 - Speed
+  Index 3 - Temperature
+  */
     
   const fetchSolarWindData = () => {
     solarWind()
       .then((data) => {
-        const tags = data.data[0];
         const winds = data.data[data.data.length - 1];
-        setLabel(tags);
         setCurrentWinds(winds);
       })
       .catch((error) => console.error('Error fetching solar wind data:', error));
@@ -28,11 +35,14 @@ const Header = ({currentWinds, setCurrentWinds, label, setLabel}) => {
 
   return (
       <>
-        {label.map((tag, index) => (
-          <div key={index}>
-            {tag} - {currentWinds[index]}
-          </div>
-        ))}
+      <div>
+        {currentWinds[0]}
+        </div><div>
+        {currentWinds[1]} 1/cm³
+        </div><div>
+        {currentWinds[2]} km/s
+        </div>
+        {currentWinds[3]} °K
       </>
   );
 
